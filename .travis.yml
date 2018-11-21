@@ -1,0 +1,11 @@
+---
+services: docker
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+
+script:
+  - docker build -t local-oidc .
+  - docker run -d --name oidc -p 3000:80 local-oidc
+  - docker exec oidc nginx -v
